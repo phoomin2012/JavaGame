@@ -63,6 +63,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
             if (player.getX() + 30 >= obstacle.getX() - 30) {
                 System.out.println("Collide!!");
+                System.exit(0);
             }
         }
     }
