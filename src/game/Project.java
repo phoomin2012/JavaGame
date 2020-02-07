@@ -22,5 +22,6 @@ public class Project {
 
     public static void main(String[] args) {
         project = new Project();
+        System.out.println("StartGame !");
     }
 }
