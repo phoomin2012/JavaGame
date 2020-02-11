@@ -2,6 +2,9 @@ package game;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class Player {
     private int x;
@@ -10,8 +13,9 @@ public class Player {
     private double gravity = 1.55; // Can tune
     private boolean canJump = true;
     private boolean canFall = false;
+    private Image playerImage, image;
 
-    private Image playerImage;
+
 
     public Player(int x, int y) {
         this.x = x;
@@ -19,10 +23,6 @@ public class Player {
     }
 
     public void update() {
-//        System.out.println("Update");
-//        if (canJump == false) {
-//            jump();
-//        }
         if (y < Project.HEIGHT / 2 + 100) {
             canFall = true;
             fall();
@@ -32,9 +32,8 @@ public class Player {
     }
 
     public void draw(Graphics g) {
-//        g.setColor(Color.WHITE);
-//        g.drawRect(x, y, 60, 60);
-        ImageIcon icon = new ImageIcon("image/t-rex.png");
+
+        ImageIcon icon = new ImageIcon("image/human.gif");
         playerImage = icon.getImage();
         g.drawImage(playerImage, x, y, 60, 60, null);
     }
@@ -83,4 +82,6 @@ public class Player {
     public void setJump(boolean canJump) {
         this.canJump = canJump;
     }
+
+
 }

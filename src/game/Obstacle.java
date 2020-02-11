@@ -2,6 +2,8 @@ package game;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Hashtable;
+import java.util.Random;
 
 public class Obstacle {
     private int x;
@@ -15,11 +17,22 @@ public class Obstacle {
     }
 
     public void update() {
-        x -= 10;
+        x -= 12;
     }
 
     public void draw(Graphics g) {
-        ImageIcon icon = new ImageIcon("image/cactus.png");
+        Hashtable<Integer, String> imageDict = new Hashtable<Integer, String>();
+
+        imageDict.put(0, "image/cactus.png");
+        imageDict.put(1, "image/car1.png");
+        imageDict.put(2, "image/car2.png");
+//        imageDict.put(3, "Banana");
+//        imageDict.put(4, "Banana");
+
+        Random rand = new Random();
+//        System.out.println(imageDict.get(rand.nextInt(imageDict.size())));
+
+        ImageIcon icon = new ImageIcon(imageDict.get(rand.nextInt(imageDict.size())));
         obstacleIcon = icon.getImage();
         g.drawImage(obstacleIcon, x, y, 60, 60, null);
     }

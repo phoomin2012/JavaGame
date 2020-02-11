@@ -1,6 +1,7 @@
 package game;
 
 import javax.swing.*;
+import javax.swing.plaf.nimbus.State;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,60 +12,120 @@ import java.util.Random;
 public class Game extends JPanel implements ActionListener, KeyListener {
     private static final long serialVersionUID = 1L;
 
-    private Timer timer;
+    private Score scoreMenu;
+    private StartMenu startMenu;
+    private Restart restartMenu;
+    private Score scorePanel;
+
     private Player player;
-    private Obstacle obstacle, obstacle2, obstacle3;
+    private Obstacle obstacle,obstacle2,obstacle3;
 
     private Random rand = new Random();
-
+    private int score;
     private boolean play;
+    private JLabel scoreLabel;
+    enum STATE {
+        MENU,
+        GAME,
+        GAME_RESTART,
+        SCORE,
+        EXIT
+    };
+
+    static STATE state = STATE.MENU;
 
     public Game() {
-        timer = new Timer(15, this);
-        timer.start();
+        int score = 0;
+        startMenu = new StartMenu();
+        scoreMenu = new Score();
+        restartMenu = new Restart();
+        scorePanel = new Score();
 
-        player = new Player(150, 360);
-        obstacle = new Obstacle(rand.nextInt(Project.WIDTH) + 200, 360);
-        obstacle2 = new Obstacle(rand.nextInt(Project.WIDTH) + 200, 360);
-        obstacle3 = new Obstacle(rand.nextInt(Project.WIDTH) + 200, 360);
+        obstacle = new Obstacle(rand.nextInt(Project.WIDTH) + 250, 360);
+        obstacle2 = new Obstacle(rand.nextInt(Project.WIDTH) + 250, 360);
+        obstacle3 = new Obstacle(rand.nextInt(Project.WIDTH) + 250, 360);
+
+        Timer timer = new Timer(20, this);
+        timer.start();
 
         addKeyListener(this);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
+        addMouseListener(startMenu);
+        addMouseListener(scoreMenu);
+        addMouseListener(restartMenu);
+    }
+
+    public void background(Graphics g,String filepath){
+        ImageIcon imageIcon = new ImageIcon(filepath);
+        Image image = imageIcon.getImage();
+        g.drawImage(image,0,0,Project.WIDTH,Project.HEIGHT,null);
     }
 
     @Override
     public void paint(Graphics g) {
         super.paint(g);
 
-        play = true;
+        switch (state) {
+            case MENU:
+                startMenu.draw(g);
+                play = true;
+                player = new Player(150, 360);
+                break;
+            case GAME:
+                background(g,"image/Play.png");
 
-        player.draw(g);
-        obstacle.draw(g);
-        obstacle2.draw(g);
-        obstacle3.draw(g);
+                if (score < 10){
+                    obstacle = new Obstacle(rand.nextInt(Project.WIDTH) + 250, 360);
+                }else{
+                    obstacle = new Obstacle(rand.nextInt(Project.WIDTH) + 50, 360);
+
+                }
+
+                obstacle.draw(g);
+                player.draw(g);
+                break;
+            case SCORE:
+//                background(g,"image/Score.png");
+               scorePanel.draw(g);
+
+                break;
+            case GAME_RESTART:
+                restartMenu.draw(g);
+                break;
+            case EXIT:
+                    System.exit(0);
+                break;
+            default:
+                // do nothing
+        }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (play) {
-            player.update();
-            obstacle.update();
-            obstacle2.update();
-            obstacle3.update();
-            repaint();
+        switch (state) {
+            case GAME:
+                if (play) {
+                    score = score+2;
+                    int sumScore = score / 15;
 
-            if (player.isFall() && player.getY() >= 360) {
-                player.setY(360);
-                player.setSpeedY(0);
-                player.setFall(false);
-                player.setJump(true);
-            }
+//                    System.out.println("Score:" + sumScore);
+                    player.update();
+                    if (player.isFall() && player.getY() >= 360) {
+                        player.setY(360);
+                        player.setSpeedY(0);
+                        player.setFall(false);
+                        player.setJump(true);
 
-            if (player.getX() + 30 >= obstacle.getX() - 30) {
-                System.out.println("Collide!!");
-                System.exit(0);
-            }
+
+                    }
+                    if (player.getX() + 30 >= obstacle.getX() - 30) {
+
+//                        Game.state = STATE.GAME_RESTART;
+                    }
+                }
+            default:
+                repaint();
         }
     }
 
