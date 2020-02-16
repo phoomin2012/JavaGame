@@ -7,18 +7,16 @@ import java.awt.event.MouseListener;
 import java.awt.image.ImageObserver;
 
 
-public class Restart implements MouseListener {
-    private boolean play;
 
+public class Restart implements MouseListener {
+private boolean play;
+private Player player;
     public void draw(Graphics g) {
         ImageIcon imageIcon = new ImageIcon("image/Restart.png");
         Image image = imageIcon.getImage();
         g.drawImage(image,0,0,Project.WIDTH,Project.HEIGHT,null);
-
-        System.out.println(Game.state);
+//        System.out.println(Game.state);
     }
-
-
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -40,7 +38,7 @@ public class Restart implements MouseListener {
         if(Game.state == Game.STATE.GAME_RESTART){
 //        Button Play Again
             if(mouseX >= 263  && mouseY >= 284 && mouseX <= 395 && mouseY <= 332){
-                Game.state = Game.STATE.GAME;
+                new Game();
             System.out.println("Button Play agian");
             }
 //            Exit

@@ -32,14 +32,12 @@ public class Score implements MouseListener {
     public void mouseReleased(MouseEvent e) {
         int mouseX = e.getX();
         int mouseY = e.getY();
-//        System.out.println("X : " + mouseX + " Y : " + mouseY);
 
 
         if(Game.state == Game.STATE.SCORE){
 //        Button Play
             if(mouseX >= 681  && mouseY >= 379 && mouseX <= 836 && mouseY <= 448){
                 Game.state = Game.STATE.MENU;
-//            System.out.println("Button 3");
             }
         }
 

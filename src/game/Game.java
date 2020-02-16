@@ -8,8 +8,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Random;
+import java.util.TimerTask;
 
-public class Game extends JPanel implements ActionListener, KeyListener {
+public class Game extends JPanel implements ActionListener, KeyListener{
     private static final long serialVersionUID = 1L;
 
     private Score scoreMenu;
@@ -23,7 +24,8 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     private Random rand = new Random();
     private int score;
     private boolean play;
-    private JLabel scoreLabel;
+
+//    private JLabel scoreLabel;
     enum STATE {
         MENU,
         GAME,
@@ -32,8 +34,8 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         EXIT
     };
 
+    Timer timer = new Timer(15, this);
     static STATE state = STATE.MENU;
-
     public Game() {
         int score = 0;
         startMenu = new StartMenu();
@@ -45,8 +47,12 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         obstacle2 = new Obstacle(rand.nextInt(Project.WIDTH) + 250, 360);
         obstacle3 = new Obstacle(rand.nextInt(Project.WIDTH) + 250, 360);
 
-        Timer timer = new Timer(20, this);
+
+
         timer.start();
+
+        player = new Player(150, 360);
+
 
         addKeyListener(this);
         setFocusable(true);
@@ -70,7 +76,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
             case MENU:
                 startMenu.draw(g);
                 play = true;
-                player = new Player(150, 360);
+
                 break;
             case GAME:
                 background(g,"image/Play.png");
@@ -86,11 +92,13 @@ public class Game extends JPanel implements ActionListener, KeyListener {
                 player.draw(g);
                 break;
             case SCORE:
-//                background(g,"image/Score.png");
                scorePanel.draw(g);
 
                 break;
             case GAME_RESTART:
+                new Game();
+                play = true;
+//                timer.restart();
                 restartMenu.draw(g);
                 break;
             case EXIT:
@@ -120,8 +128,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
                     }
                     if (player.getX() + 30 >= obstacle.getX() - 30) {
-
-//                        Game.state = STATE.GAME_RESTART;
+                        Game.state = STATE.GAME_RESTART;
                     }
                 }
             default:

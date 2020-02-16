@@ -2,13 +2,13 @@ package game;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.Hashtable;
 import java.util.Random;
 
 public class Obstacle {
     private int x;
     private int y;
-
     Image obstacleIcon;
 
     public Obstacle(int x, int y) {
@@ -26,15 +26,13 @@ public class Obstacle {
         imageDict.put(0, "image/cactus.png");
         imageDict.put(1, "image/car1.png");
         imageDict.put(2, "image/car2.png");
-//        imageDict.put(3, "Banana");
-//        imageDict.put(4, "Banana");
 
         Random rand = new Random();
-//        System.out.println(imageDict.get(rand.nextInt(imageDict.size())));
 
         ImageIcon icon = new ImageIcon(imageDict.get(rand.nextInt(imageDict.size())));
         obstacleIcon = icon.getImage();
         g.drawImage(obstacleIcon, x, y, 60, 60, null);
+
     }
 
     public int getX() {
