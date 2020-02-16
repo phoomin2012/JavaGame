@@ -5,18 +5,18 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.ImageObserver;
+import java.lang.reflect.GenericArrayType;
 
-public class Score implements MouseListener {
 
+public class PlayGame implements MouseListener {
+    private boolean play;
+    private Player player;
 
     public void draw(Graphics g) {
-        ImageIcon imageIcon = new ImageIcon("image/Score.png");
+        ImageIcon imageIcon = new ImageIcon("image/Play.png");
         Image image = imageIcon.getImage();
         g.drawImage(image,0,0,Project.WIDTH,Project.HEIGHT,null);
-//        System.out.println(Game.state);
     }
-
-
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -30,16 +30,6 @@ public class Score implements MouseListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        int mouseX = e.getX();
-        int mouseY = e.getY();
-
-
-        if(Game.state == Game.STATE.SCORE){
-//        Button Play
-            if(mouseX >= 681  && mouseY >= 379 && mouseX <= 836 && mouseY <= 448){
-                Game.state = Game.STATE.MENU;
-            }
-        }
 
     }
 

@@ -1,22 +1,21 @@
 package game;
 
 import javax.swing.*;
-import javax.swing.plaf.nimbus.State;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Random;
-import java.util.TimerTask;
 
 public class Game extends JPanel implements ActionListener, KeyListener{
     private static final long serialVersionUID = 1L;
 
     private Score scoreMenu;
     private StartMenu startMenu;
-    private Restart restartMenu;
+    private GameOver gameOverMenu;
     private Score scorePanel;
+    private PlayGame playGamePanel;
 
     private Player player;
     private Obstacle obstacle,obstacle2,obstacle3;
@@ -30,6 +29,7 @@ public class Game extends JPanel implements ActionListener, KeyListener{
         MENU,
         GAME,
         GAME_RESTART,
+        GAME_OVER,
         SCORE,
         EXIT
     };
@@ -40,8 +40,9 @@ public class Game extends JPanel implements ActionListener, KeyListener{
         int score = 0;
         startMenu = new StartMenu();
         scoreMenu = new Score();
-        restartMenu = new Restart();
+        gameOverMenu = new GameOver();
         scorePanel = new Score();
+        playGamePanel = new PlayGame();
 
         obstacle = new Obstacle(rand.nextInt(Project.WIDTH) + 250, 360);
         obstacle2 = new Obstacle(rand.nextInt(Project.WIDTH) + 250, 360);
@@ -59,13 +60,7 @@ public class Game extends JPanel implements ActionListener, KeyListener{
         setFocusTraversalKeysEnabled(false);
         addMouseListener(startMenu);
         addMouseListener(scoreMenu);
-        addMouseListener(restartMenu);
-    }
-
-    public void background(Graphics g,String filepath){
-        ImageIcon imageIcon = new ImageIcon(filepath);
-        Image image = imageIcon.getImage();
-        g.drawImage(image,0,0,Project.WIDTH,Project.HEIGHT,null);
+        addMouseListener(gameOverMenu);
     }
 
     @Override
@@ -79,7 +74,8 @@ public class Game extends JPanel implements ActionListener, KeyListener{
 
                 break;
             case GAME:
-                background(g,"image/Play.png");
+
+                playGamePanel.draw(g);
 
                 if (score < 10){
                     obstacle = new Obstacle(rand.nextInt(Project.WIDTH) + 250, 360);
@@ -93,13 +89,24 @@ public class Game extends JPanel implements ActionListener, KeyListener{
                 break;
             case SCORE:
                scorePanel.draw(g);
-
                 break;
-            case GAME_RESTART:
+            case GAME_OVER:
                 new Game();
                 play = true;
-//                timer.restart();
-                restartMenu.draw(g);
+                gameOverMenu.draw(g);
+                break;
+            case GAME_RESTART:
+                player = new Player(150, 360);
+                playGamePanel.draw(g);
+                if (score < 10){
+                    obstacle = new Obstacle(rand.nextInt(Project.WIDTH) + 250, 360);
+                }else{
+                    obstacle = new Obstacle(rand.nextInt(Project.WIDTH) + 50, 360);
+
+                }
+
+                obstacle.draw(g);
+                player.draw(g);
                 break;
             case EXIT:
                     System.exit(0);
@@ -128,7 +135,8 @@ public class Game extends JPanel implements ActionListener, KeyListener{
 
                     }
                     if (player.getX() + 30 >= obstacle.getX() - 30) {
-                        Game.state = STATE.GAME_RESTART;
+                        Game.state = STATE.GAME_OVER;
+                        break;
                     }
                 }
             default:

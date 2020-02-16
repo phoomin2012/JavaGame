@@ -13,7 +13,7 @@ public class StartMenu implements MouseListener {
         ImageIcon imageIcon = new ImageIcon("image/Menu.png");
         Image image = imageIcon.getImage();
         g.drawImage(image,0,0,Project.WIDTH,Project.HEIGHT,null);
-        System.out.println(Game.state);
+//        System.out.println(Game.state);
     }
 
 
@@ -44,7 +44,6 @@ public class StartMenu implements MouseListener {
 //        Button Score
         if(mouseX >= 85 && mouseY >= 330 && mouseX <= 235 && mouseY <= 410){
             Game.state = Game.STATE.SCORE;
-            System.out.println(Game.state);
 //            System.out.println("Button 2");
         }
         //        Button Exit
