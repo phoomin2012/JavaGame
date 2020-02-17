@@ -50,4 +50,5 @@ public class Obstacle {
     public void setY(int y) {
         this.y = y;
     }
+
 }
