@@ -30,7 +30,7 @@ public class Game extends JPanel implements ActionListener, KeyListener{
     private int score;
     private boolean play;
     private int startSpeed = 250;
-    private int tickCount = 0;
+    private int tickCount = 0, sumScore = 0, speed = 30;
 
     //private JLabel scoreLabel;
     enum STATE {
@@ -95,9 +95,19 @@ public class Game extends JPanel implements ActionListener, KeyListener{
                 play = true;
                 break;
             case GAME:
-                if (tickCount % 30 == 0) {
+                if (tickCount % speed == 0) {
                     tickCount = 0;
                     obstacles.add(new Obstacle(860, 360));
+                }
+                switch (sumScore){
+                    case 10:
+                        speed = 20;
+                        break;
+                    case 100:
+                        speed = 10;
+                        break;
+                    default:
+                        break;
                 }
 
                 playGamePanel.draw(g);
@@ -108,7 +118,8 @@ public class Game extends JPanel implements ActionListener, KeyListener{
                     obstacle.draw(g);
                     if (120 <= obstacle.getX() && 180 >= obstacle.getX() && player.getY() >= 300) {
                         setState(STATE.GAME_OVER);
-                        System.out.println("Change to Game over !");
+                        score = 0;
+                        sumScore = 0;
                     }
                 });
                 obstacles = obstacles.stream().filter(obstacle -> obstacle.getX() >= -60).collect(Collectors.toList());
@@ -136,7 +147,8 @@ public class Game extends JPanel implements ActionListener, KeyListener{
             case GAME:
                 if (play) {
                     score = score+2;
-                    int sumScore = score / 15;
+                    sumScore = score / 15;
+                    System.out.println(" Score: "+sumScore);
                     player.update();
                     if (player.isFall() && player.getY() >= 360) {
                         player.setY(360);
