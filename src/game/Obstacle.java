@@ -14,13 +14,6 @@ public class Obstacle {
     public Obstacle(int x, int y) {
         this.x = x;
         this.y = y;
-    }
-
-    public void update() {
-        x -= 12;
-    }
-
-    public void draw(Graphics g) {
         Hashtable<Integer, String> imageDict = new Hashtable<Integer, String>();
 
         imageDict.put(0, "image/cactus.png");
@@ -31,6 +24,14 @@ public class Obstacle {
 
         ImageIcon icon = new ImageIcon(imageDict.get(rand.nextInt(imageDict.size())));
         obstacleIcon = icon.getImage();
+    }
+
+    public void move() {
+        x -= 15;
+    }
+
+    public void draw(Graphics g) {
+
         g.drawImage(obstacleIcon, x, y, 60, 60, null);
 
     }

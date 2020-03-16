@@ -10,6 +10,12 @@ import java.awt.event.MouseListener;
 
 public class GameOver implements MouseListener {
 
+    private Game IGame;
+
+    public GameOver(Game game) {
+        IGame = game;
+    }
+
     public void draw(Graphics g) {
         ImageIcon imageIcon = new ImageIcon("image/GameOver.png");
         Image image = imageIcon.getImage();
@@ -31,22 +37,16 @@ public class GameOver implements MouseListener {
         int mouseX = e.getX();
         int mouseY = e.getY();
 
-
-        if(Game.state == Game.STATE.GAME_OVER){
+        if(IGame.state == Game.STATE.GAME_OVER) {
             /* Button Play Again */
             if(mouseX >= 263  && mouseY >= 284 && mouseX <= 395 && mouseY <= 332) {
-                Game.state = Game.STATE.GAME;
-                System.out.println("Button Play agian");
-                System.out.println(Game.state);
-
+                IGame.setState(Game.STATE.GAME);
                 /* Exit */
-            }else if(mouseX >= 484  && mouseY >= 285 && mouseX <= 613 && mouseY <= 332) {
-                    System.exit(0);
-                }
-            }else{
-                System.out.println("Not play again");
+            } else if(mouseX >= 484  && mouseY >= 285 && mouseX <= 613 && mouseY <= 332) {
+                IGame.setState(Game.STATE.EXIT);
             }
         }
+    }
 
 
 

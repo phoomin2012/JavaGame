@@ -6,8 +6,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class Game extends JPanel implements ActionListener, KeyListener{
     private static final long serialVersionUID = 1L;
@@ -20,14 +24,15 @@ public class Game extends JPanel implements ActionListener, KeyListener{
 
 
     private Player player;
-    private Obstacle obstacle,obstacle2,obstacle3;
+    private List<Obstacle> obstacles = new ArrayList<Obstacle>();
 
     private Random rand = new Random();
     private int score;
     private boolean play;
     private int startSpeed = 250;
+    private int tickCount = 0;
 
-//    private JLabel scoreLabel;
+    //private JLabel scoreLabel;
     enum STATE {
         MENU,
         GAME,
@@ -41,22 +46,15 @@ public class Game extends JPanel implements ActionListener, KeyListener{
     static STATE state = STATE.MENU;
     public Game() {
         int score = 0;
-        startMenu = new StartMenu();
-        scoreMenu = new Score();
-        gameOverMenu = new GameOver();
-        scorePanel = new Score();
+        startMenu = new StartMenu(this);
+        scoreMenu = new Score(this);
+        gameOverMenu = new GameOver(this);
+        scorePanel = new Score(this);
         playGamePanel = new PlayGame();
-
-        obstacle = new Obstacle(rand.nextInt(Project.WIDTH) + 250, 360);
-//        obstacle2 = new Obstacle(rand.nextInt(Project.WIDTH) + 250, 360);
-//        obstacle3 = new Obstacle(rand.nextInt(Project.WIDTH) + 250, 360);
-
-
 
         timer.start();
 
         player = new Player(150, 360);
-
 
         addKeyListener(this);
         setFocusable(true);
@@ -64,64 +62,71 @@ public class Game extends JPanel implements ActionListener, KeyListener{
         addMouseListener(startMenu);
         addMouseListener(scoreMenu);
         addMouseListener(gameOverMenu);
+        setState(STATE.MENU);
+    }
+
+    public void setState(STATE newstate) {
+        System.out.println("Change new state form "+state+" to "+newstate);
+        state = newstate;
+        switch (state) {
+            case MENU:
+                play = true;
+                break;
+            case GAME:
+                obstacles.clear();
+                tickCount = 0;
+                break;
+            case GAME_OVER:
+                break;
+            case EXIT:
+                System.exit(0);
+                break;
+        }
     }
 
     @Override
     public void paint(Graphics g) {
         super.paint(g);
+
         switch (state) {
             case MENU:
                 startMenu.draw(g);
-                play = true;
 
+                play = true;
                 break;
             case GAME:
-
-                playGamePanel.draw(g);
-                if(score < 200){
-                    obstacle = new Obstacle(rand.nextInt(Project.WIDTH) + 250, 360);
-                } else {
-                    obstacle = new Obstacle(rand.nextInt(Project.WIDTH) + 100, 360);
+                if (tickCount % 30 == 0) {
+                    tickCount = 0;
+                    obstacles.add(new Obstacle(860, 360));
                 }
 
+                playGamePanel.draw(g);
 
-
-                obstacle.draw(g);
                 player.draw(g);
+                obstacles.forEach(obstacle -> {
+                    obstacle.move();
+                    obstacle.draw(g);
+                    if (120 <= obstacle.getX() && 180 >= obstacle.getX() && player.getY() >= 300) {
+                        setState(STATE.GAME_OVER);
+                        System.out.println("Change to Game over !");
+                    }
+                });
+                obstacles = obstacles.stream().filter(obstacle -> obstacle.getX() >= -60).collect(Collectors.toList());
                 break;
             case SCORE:
                scorePanel.draw(g);
                 break;
             case GAME_OVER:
-                new Game();
-                play = true;
                 gameOverMenu.draw(g);
-                System.out.println("Game over");
-//                repaint();
-//                timer.restart();
                 break;
             case GAME_RESTART:
-
-//                score = 0;
                 player = new Player(150, 360);
                 playGamePanel.draw(g);
-                if (score < 10){
-                    obstacle = new Obstacle(rand.nextInt(Project.WIDTH) + 250, 360);
-                }else{
-                    obstacle = new Obstacle(rand.nextInt(Project.WIDTH) + 50, 360);
-
-                }
-
-                System.out.println("Case Game restart ");
-                obstacle.draw(g);
                 player.draw(g);
                 break;
-            case EXIT:
-                    System.exit(0);
-                break;
             default:
-                // do nothing
         }
+        tickCount++;
     }
 
     @Override
@@ -132,23 +137,15 @@ public class Game extends JPanel implements ActionListener, KeyListener{
                 if (play) {
                     score = score+2;
                     int sumScore = score / 15;
-                    System.out.println("Score" + score);
                     player.update();
                     if (player.isFall() && player.getY() >= 360) {
                         player.setY(360);
                         player.setSpeedY(0);
                         player.setFall(false);
                         player.setJump(true);
-
-
-                    }
-                    if (player.getX() + 30 >= obstacle.getX() - 30) {
-                        Game.state = STATE.GAME_OVER;
-                        System.out.println("Change to Game over !");
                     }
                 }
             default:
-                System.out.println(state + " " + new Date());
                 repaint();
         }
     }
@@ -156,7 +153,6 @@ public class Game extends JPanel implements ActionListener, KeyListener{
 
     @Override
     public void keyTyped(KeyEvent e) {
-
     }
 
     @Override
@@ -169,7 +165,6 @@ public class Game extends JPanel implements ActionListener, KeyListener{
 
     @Override
     public void keyReleased(KeyEvent e) {
-
     }
 
 

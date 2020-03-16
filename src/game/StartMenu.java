@@ -8,6 +8,12 @@ import java.awt.image.ImageObserver;
 
 public class StartMenu implements MouseListener {
 
+    private Game IGame;
+
+    public StartMenu(Game game) {
+        IGame = game;
+    }
+
 
     public void draw(Graphics g) {
         ImageIcon imageIcon = new ImageIcon("image/Menu.png");
@@ -38,17 +44,18 @@ public class StartMenu implements MouseListener {
     if(Game.state == Game.STATE.MENU){
 //        Button Play
         if(mouseX >= 358 && mouseY >= 330 && mouseX <= 505 && mouseY <= 410){
-            Game.state = Game.STATE.GAME;
+            IGame.setState(Game.STATE.GAME);
+
 //            System.out.println("Button 1");
         }
 //        Button Score
         if(mouseX >= 85 && mouseY >= 330 && mouseX <= 235 && mouseY <= 410){
-            Game.state = Game.STATE.SCORE;
+            IGame.setState(Game.STATE.SCORE);
 //            System.out.println("Button 2");
         }
         //        Button Exit
         if(mouseX >= 633  && mouseY >= 330 && mouseX <= 788 && mouseY <= 410){
-           Game.state = Game.STATE.EXIT;
+            IGame.setState(Game.STATE.EXIT);
 //            System.out.println("Button 3");
         }
     }

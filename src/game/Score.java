@@ -8,6 +8,11 @@ import java.awt.image.ImageObserver;
 
 public class Score implements MouseListener {
 
+    private Game IGame;
+
+    public Score(Game game) {
+        IGame = game;
+    }
 
     public void draw(Graphics g) {
         ImageIcon imageIcon = new ImageIcon("image/Score.png");
@@ -37,7 +42,7 @@ public class Score implements MouseListener {
         if(Game.state == Game.STATE.SCORE){
 //        Button Play
             if(mouseX >= 681  && mouseY >= 379 && mouseX <= 836 && mouseY <= 448){
-                Game.state = Game.STATE.MENU;
+                IGame.setState(Game.STATE.MENU);
             }
         }
 
