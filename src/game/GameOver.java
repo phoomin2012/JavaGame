@@ -34,17 +34,22 @@ public class GameOver implements MouseListener {
 
         if(Game.state == Game.STATE.GAME_OVER){
             /* Button Play Again */
-            if(mouseX >= 263  && mouseY >= 284 && mouseX <= 395 && mouseY <= 332)
-                Game.state = Game.STATE.GAME_RESTART;
+            if(mouseX >= 263  && mouseY >= 284 && mouseX <= 395 && mouseY <= 332) {
+                Game.state = Game.STATE.GAME;
                 System.out.println("Button Play agian");
                 System.out.println(Game.state);
-            /* Exit */
-            if(mouseX >= 484  && mouseY >= 285 && mouseX <= 613 && mouseY <= 332) {
-                System.exit(0);
+
+                /* Exit */
+            }else if(mouseX >= 484  && mouseY >= 285 && mouseX <= 613 && mouseY <= 332) {
+                    System.exit(0);
+                }
+            }else{
+                System.out.println("Not play again");
             }
         }
 
-    }
+
+
 
     @Override
     public void mouseEntered(MouseEvent e) {

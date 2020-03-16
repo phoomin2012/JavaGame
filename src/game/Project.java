@@ -11,7 +11,7 @@ public class Project {
     public Project() {
         JFrame window = new JFrame();
         window.setTitle("REAL BANGKOK");
-//        window.setUndecorated(true);
+        window.setUndecorated(true);
         window.add(game);
         window.setSize(WIDTH, HEIGHT);
         window.setResizable(false);

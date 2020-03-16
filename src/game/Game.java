@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Date;
 import java.util.Random;
 
 public class Game extends JPanel implements ActionListener, KeyListener{
@@ -49,8 +50,6 @@ public class Game extends JPanel implements ActionListener, KeyListener{
         obstacle = new Obstacle(rand.nextInt(Project.WIDTH) + 250, 360);
 //        obstacle2 = new Obstacle(rand.nextInt(Project.WIDTH) + 250, 360);
 //        obstacle3 = new Obstacle(rand.nextInt(Project.WIDTH) + 250, 360);
-        setSpeedGame(obstacle.getX());
-        obstacle.setX(startSpeed);
 
 
 
@@ -70,7 +69,6 @@ public class Game extends JPanel implements ActionListener, KeyListener{
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-
         switch (state) {
             case MENU:
                 startMenu.draw(g);
@@ -98,8 +96,13 @@ public class Game extends JPanel implements ActionListener, KeyListener{
                 new Game();
                 play = true;
                 gameOverMenu.draw(g);
+                System.out.println("Game over");
+//                repaint();
+//                timer.restart();
                 break;
             case GAME_RESTART:
+
+//                score = 0;
                 player = new Player(150, 360);
                 playGamePanel.draw(g);
                 if (score < 10){
@@ -109,6 +112,7 @@ public class Game extends JPanel implements ActionListener, KeyListener{
 
                 }
 
+                System.out.println("Case Game restart ");
                 obstacle.draw(g);
                 player.draw(g);
                 break;
@@ -123,12 +127,12 @@ public class Game extends JPanel implements ActionListener, KeyListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (state) {
+            case GAME_RESTART:
             case GAME:
                 if (play) {
                     score = score+2;
                     int sumScore = score / 15;
                     System.out.println("Score" + score);
-//                    System.out.println("Score:" + sumScore);
                     player.update();
                     if (player.isFall() && player.getY() >= 360) {
                         player.setY(360);
@@ -140,10 +144,11 @@ public class Game extends JPanel implements ActionListener, KeyListener{
                     }
                     if (player.getX() + 30 >= obstacle.getX() - 30) {
                         Game.state = STATE.GAME_OVER;
-//                        break;
+                        System.out.println("Change to Game over !");
                     }
                 }
             default:
+                System.out.println(state + " " + new Date());
                 repaint();
         }
     }
@@ -168,14 +173,5 @@ public class Game extends JPanel implements ActionListener, KeyListener{
     }
 
 
-    private void setSpeedGame( int x ){
-        System.out.println("Loop setSpeed");
-        if(startSpeed <= 450){
-            if(((x % 998) == 0) || ((x %  999) == 0) || ((x % 1000) == 0) || ((x % 1001) == 0) || (x % 1002 == 0)){
-                startSpeed +=2;
-                obstacle.setX(startSpeed);
-                System.out.println(startSpeed);
-            }
-        }
-    }
+
 }
