@@ -31,7 +31,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     private int score;
     private boolean play;
     private int tickCount = 0, sumScore = 0;
-
+    private int speed = 30;
 
 
     //private JLabel scoreLabel;
@@ -59,8 +59,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
         Log log = new Log();
         log.writeLogfile();
-        log.setStartTime(this);
-        System.out.println(log.getStartTime());
+
         Music.backgroundLoop();
         timer.start();
 
@@ -77,41 +76,41 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
 
 
-    public void saveHightScore() throws IOException {
-        int highScore = 0;
-        File file = new File("test.txt");
-        FileWriter Writer = new FileWriter(file);
-        try {
-            file.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void saveHeighScore(int score) throws IOException {
+        File inFile = new File("score.txt");
+        File writeFile;
+        try{
 
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(file));
+            if(inFile.exists()){
 
-            String line = reader.readLine();
+                BufferedReader reader = new BufferedReader(new FileReader(inFile));
+                String line = reader.readLine();
+                System.out.println(line);
 
-            while (line != null)                 // read the score file line by line
-            {
-                try {
-                    int score = Integer.parseInt(line.trim());   // parse each line as an int
-                    if (score > highScore)                       // and keep track of the largest
-                    {
-                        Writer.write(Integer.toString(highScore));
-                        Writer.close();
-                        highScore = score;
+                Scanner sc = new Scanner(inFile);
+                if (line != null){
+                    int oldScore = Integer.parseInt(line);
+                    if(oldScore < score){
+                        writeFile = new File("score.txt");
+                        FileOutputStream outFS = new FileOutputStream(writeFile);
+                        PrintWriter outS = new PrintWriter(outFS);
+                        outS.println(score); //Write Score
+                        outS.close();
                     }
-                } catch (NumberFormatException e1) {
-                    // ignore invalid scores
-                    //System.err.println("ignoring invalid score: " + line);
-                }
-                line = reader.readLine();
-            }
-            reader.close();
 
-        } catch (IOException ex) {
-            System.err.println("ERROR reading scores from file");
+
+                }
+
+            }else{
+                writeFile = new File("score.txt");
+                inFile.createNewFile();
+                FileOutputStream outFS = new FileOutputStream(writeFile);
+                PrintWriter outS = new PrintWriter(outFS);
+                outS.println(score);//Write Score
+                outS.close();
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Error !! : " + e.getMessage());
         }
     }
 
@@ -142,11 +141,16 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         switch (state) {
             case MENU:
                 startMenu.draw(g);
-
                 play = true;
+
                 break;
             case GAME:
-                int speed = 30;
+                if(sumScore > 100 ){
+                    this.speed = 20;
+                }else if(sumScore > 500){
+                    this.speed = 10;
+                }
+
                 if (tickCount % speed == 0) {
                     tickCount = 0;
                     obstacles.add(new Obstacle(860, 360));
@@ -161,8 +165,14 @@ public class Game extends JPanel implements ActionListener, KeyListener {
                     obstacle.draw(g);
                     if (120 <= obstacle.getX() && 180 >= obstacle.getX() && player.getY() >= 300) {
                         setState(STATE.GAME_OVER);
+                        try {
+                            saveHeighScore(sumScore);
+                        } catch (IOException e) {
+                            System.out.println("Error !! : " + e.getMessage());
+                        }
                         score = 0;
                         sumScore = 0;
+                        this.speed = 30;
 
                     }
                 });

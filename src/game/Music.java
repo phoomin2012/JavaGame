@@ -20,12 +20,12 @@ public class Music {
 
         try {
             // สร้าง object AudioSystem ขึ้นมาใหม่ และ Get path file music มาใช้งาน
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File("sound/sound-bg.wav"));
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File("sound/kidtung.wav"));
             clip = AudioSystem.getClip();
             clip.open(audioStream);
             // FloatControl เพื่อมากำหนเเสียง
             FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            volumeControl.setValue(+5.0f); // ตั้งค่า Value sound
+//            volumeControl.setValue(-1.0f); // ตั้งค่า Value sound
             muteSetting(); // method muteSetting
         } catch (UnsupportedAudioFileException e) {
             e.printStackTrace();
