@@ -38,7 +38,6 @@ public class StartMenu implements MouseListener {
     public void mouseReleased(MouseEvent e) {
         int mouseX = e.getX();
         int mouseY = e.getY();
-        System.out.println("X : " + mouseX + " Y : " + mouseY);
 
 
     if(Game.state == Game.STATE.MENU){
@@ -46,17 +45,17 @@ public class StartMenu implements MouseListener {
         if(mouseX >= 358 && mouseY >= 330 && mouseX <= 505 && mouseY <= 410){
             IGame.setState(Game.STATE.GAME);
 
-//            System.out.println("Button 1");
+
         }
 //        Button Score
         if(mouseX >= 85 && mouseY >= 330 && mouseX <= 235 && mouseY <= 410){
             IGame.setState(Game.STATE.SCORE);
-//            System.out.println("Button 2");
+
         }
         //        Button Exit
         if(mouseX >= 633  && mouseY >= 330 && mouseX <= 788 && mouseY <= 410){
             IGame.setState(Game.STATE.EXIT);
-//            System.out.println("Button 3");
+
         }
     }
 

@@ -18,7 +18,7 @@ public class PlayGame implements MouseListener {
         ImageIcon imageIcon = new ImageIcon("image/Play.png");
         Image image = imageIcon.getImage();
         g.drawImage(image,0,0,Project.WIDTH,Project.HEIGHT,null);
-//        g.drawImage(image,0,0,Project.WIDTH,Project.HEIGHT,null);
+
     }
 
 
