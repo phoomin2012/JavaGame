@@ -9,10 +9,31 @@
       <enabled value="true"/>
       <font name="JetBrains Mono"/>
       <foreground color="-13638852"/>
+      <toolTipText value="94q9ewqe"/>
+      <verifyInputWhenFocusTarget value="true"/>
       <visible value="true"/>
     </properties>
     <border type="none"/>
     <children>
+      <component id="a0e2d" class="javax.swing.JLabel" binding="label1" custom-create="true">
+        <constraints>
+          <card name="Card2"/>
+        </constraints>
+        <properties>
+          <autoscrolls value="true"/>
+          <font swing-font="Button.font"/>
+          <foreground color="-12852363"/>
+          <horizontalTextPosition value="11"/>
+          <iconTextGap value="10"/>
+          <maximumSize width="100" height="100"/>
+          <minimumSize width="100" height="100"/>
+          <preferredSize width="100" height="100"/>
+          <text value="Helloworld"/>
+          <verticalAlignment value="1"/>
+          <verticalTextPosition value="3"/>
+          <visible value="true"/>
+        </properties>
+      </component>
       <component id="cdf99" class="javax.swing.JLabel" binding="label" custom-create="true">
         <constraints>
           <card name="Card1"/>
@@ -27,7 +48,7 @@
           <verifyInputWhenFocusTarget value="true"/>
           <verticalAlignment value="1"/>
           <verticalTextPosition value="1"/>
-          <visible value="true"/>
+          <visible value="false"/>
         </properties>
       </component>
     </children>

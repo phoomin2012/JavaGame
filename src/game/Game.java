@@ -8,8 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.*;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
+
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,9 +29,11 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     private Random rand = new Random();
     private int score;
     private boolean play;
-    private int tickCount = 0, sumScore = 0;
-    private int speed = 30;
+    private int tickCount = 0;
+    static int sumScore = 0;
+    private int speed = 50;
 
+    private static final String strEndpoint = "https://notify-api.line.me/api/notify";
 
     //private JLabel scoreLabel;
     enum STATE {
@@ -47,6 +48,9 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     ;
 
     Timer timer = new Timer(20, this);
+    JLabel scoreLabel = new JLabel();
+    JFrame scoreFrame = new JFrame();
+
     static STATE state = STATE.MENU;
 
     public Game() throws IOException {
@@ -60,7 +64,8 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         Log log = new Log();
         log.writeLogfile();
 
-        Music.backgroundLoop();
+
+//        Music.backgroundLoop();
         timer.start();
 
         player = new Player(150, 360);
@@ -76,45 +81,10 @@ public class Game extends JPanel implements ActionListener, KeyListener {
 
 
 
-    public void saveHeighScore(int score) throws IOException {
-        File inFile = new File("score.txt");
-        File writeFile;
-        try{
-
-            if(inFile.exists()){
-
-                BufferedReader reader = new BufferedReader(new FileReader(inFile));
-                String line = reader.readLine();
-                System.out.println(line);
-
-                Scanner sc = new Scanner(inFile);
-                if (line != null){
-                    int oldScore = Integer.parseInt(line);
-                    if(oldScore < score){
-                        writeFile = new File("score.txt");
-                        FileOutputStream outFS = new FileOutputStream(writeFile);
-                        PrintWriter outS = new PrintWriter(outFS);
-                        outS.println(score); //Write Score
-                        outS.close();
-                    }
+// class saveHighScore
 
 
-                }
-
-            }else{
-                writeFile = new File("score.txt");
-                inFile.createNewFile();
-                FileOutputStream outFS = new FileOutputStream(writeFile);
-                PrintWriter outS = new PrintWriter(outFS);
-                outS.println(score);//Write Score
-                outS.close();
-            }
-        } catch (FileNotFoundException e) {
-            System.out.println("Error !! : " + e.getMessage());
-        }
-    }
-
-
+//Set state
     public void setState(STATE newstate) {
         System.out.println("Change new state form " + state + " to " + newstate);
         state = newstate;
@@ -125,6 +95,9 @@ public class Game extends JPanel implements ActionListener, KeyListener {
             case GAME:
                 obstacles.clear();
                 tickCount = 0;
+                score = 0;
+                sumScore = 0;
+                this.speed = 50;
                 break;
             case GAME_OVER:
                 break;
@@ -166,13 +139,10 @@ public class Game extends JPanel implements ActionListener, KeyListener {
                     if (120 <= obstacle.getX() && 180 >= obstacle.getX() && player.getY() >= 300) {
                         setState(STATE.GAME_OVER);
                         try {
-                            saveHeighScore(sumScore);
+                            Log.saveHeighScore(sumScore);
                         } catch (IOException e) {
                             System.out.println("Error !! : " + e.getMessage());
                         }
-                        score = 0;
-                        sumScore = 0;
-                        this.speed = 30;
 
                     }
                 });
@@ -184,11 +154,6 @@ public class Game extends JPanel implements ActionListener, KeyListener {
             case GAME_OVER:
                 gameOverMenu.draw(g);
                 break;
-            case GAME_RESTART:
-                player = new Player(150, 360);
-                playGamePanel.draw(g);
-                player.draw(g);
-                break;
             default:
         }
         tickCount++;
@@ -197,12 +162,10 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (state) {
-            case GAME_RESTART:
             case GAME:
                 if (play) {
                     score = score + 2;
                     sumScore = score / 15;
-                    System.out.println(" Score: " + sumScore);
                     player.update();
                     if (player.isFall() && player.getY() >= 360) {
                         player.setY(360);

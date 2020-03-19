@@ -1,9 +1,8 @@
 package game;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
+import javax.swing.*;
+import java.awt.*;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
@@ -44,6 +43,79 @@ public class Log<log> {
                 //outS.println("Start game at " + getStartTime());
                 outS.println("Start game at " + timeToString.format(today)); // Edit here
                 outS.close();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void saveHeighScore(int score) throws IOException {
+        File inFile = new File("score.txt");
+        File writeFile;
+        try{
+
+            if(inFile.exists()){
+
+                BufferedReader reader = new BufferedReader(new FileReader(inFile));
+                String line = reader.readLine();
+                System.out.println(line);
+
+                if (line != null){
+                    int oldScore = Integer.parseInt(line);
+                    if(oldScore < score){
+                        String name = JOptionPane.showInputDialog(null, "Enter your name");
+                        savePlayerTop(name);
+                        writeFile = new File("score.txt");
+                        FileOutputStream outFS = new FileOutputStream(writeFile);
+                        PrintWriter outS = new PrintWriter(outFS);
+                        outS.println(score); //Write Score
+                        outS.close();
+                    }
+                }
+            }else{
+                writeFile = new File("score.txt");
+                inFile.createNewFile();
+                FileOutputStream outFS = new FileOutputStream(writeFile);
+                PrintWriter outS = new PrintWriter(outFS);
+                outS.println(score);//Write Score
+                outS.close();
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Error !! : " + e.getMessage());
+        }
+    }
+
+    public static void savePlayerTop(String name){
+        System.out.println("Loop");
+        String line = "";
+        File inFile = new File("topScore.txt");
+        File writeFile;
+        try {
+            if (inFile.exists()) {
+                Scanner scantop = new Scanner(inFile);
+
+                while (scantop.hasNextLine()  || inFile.length() == 0){ // Edit here
+                    if(inFile.length() != 0) {  // Edit here insert new if statement for file empty will execute
+                        line = line + scantop.nextLine() + "\r\n";
+                    }
+
+                    writeFile = new File("topScore.txt");
+                    FileOutputStream output = new FileOutputStream(writeFile);
+                    PrintWriter writer = new PrintWriter(output);
+                    //outS.print(line + "Start game at " + getStartTime());
+                    writer.print(line + " name" + name); //Edit here
+                    writer.close();
+
+                }
+
+            } else {
+                writeFile = new File("log.txt");
+                FileOutputStream output = new FileOutputStream(writeFile);
+                PrintWriter writer = new PrintWriter(output);
+                //outS.println("Start game at " + getStartTime());
+                writer.print(line + " name" + name); //Edit here
+                writer.close();
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "550608096211",
+    "firebase_url": "https://realbangkok-cp212.firebaseio.com",
+    "project_id": "realbangkok-cp212",
+    "storage_bucket": "realbangkok-cp212.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:550608096211:android:c560b4b1dfd8b4dc877d26",
+        "android_client_info": {
+          "package_name": "project.cp212"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "550608096211-08d1iobegqcgvkrmkgu0nc752tduao6a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAU9aVEs7dSd_Da8PefsmZGeGYr5kigpOE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "550608096211-08d1iobegqcgvkrmkgu0nc752tduao6a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

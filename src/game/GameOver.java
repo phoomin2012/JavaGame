@@ -20,6 +20,8 @@ public class GameOver implements MouseListener {
         ImageIcon imageIcon = new ImageIcon("image/GameOver.png");
         Image image = imageIcon.getImage();
         g.drawImage(image,0,0,Project.WIDTH,Project.HEIGHT,null);
+        g.setFont(new Font("Roboto Slab", Font.CENTER_BASELINE, 50));
+        g.drawString(Integer.toString(Game.sumScore),412,227);
     }
 
     @Override
@@ -36,6 +38,7 @@ public class GameOver implements MouseListener {
     public void mouseReleased(MouseEvent e) {
         int mouseX = e.getX();
         int mouseY = e.getY();
+        System.out.println("X = " + mouseX + " Y = " + mouseY);
 
         if(IGame.state == Game.STATE.GAME_OVER) {
             /* Button Play Again */
