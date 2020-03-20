@@ -63,7 +63,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
         log.writeLogfile();
 
 
-//        Music.backgroundLoop();
+        Music.backgroundLoop();
         timer.start();
 
         player = new Player(150, 360);
