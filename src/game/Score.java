@@ -4,7 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.ImageObserver;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class Score implements MouseListener {
 
@@ -14,10 +16,15 @@ public class Score implements MouseListener {
         IGame = game;
     }
 
-    public void draw(Graphics g) {
+    public void draw(Graphics g) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader("score.txt"));
+        String line = reader.readLine();
+
         ImageIcon imageIcon = new ImageIcon("image/Score.png");
         Image image = imageIcon.getImage();
         g.drawImage(image,0,0,Project.WIDTH,Project.HEIGHT,null);
+        g.setFont(new Font("Roboto Slab", Font.CENTER_BASELINE, 50));
+        g.drawString(line,390,251);
     }
 
 

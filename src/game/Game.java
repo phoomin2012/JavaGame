@@ -145,7 +145,11 @@ public class Game extends JPanel implements ActionListener, KeyListener {
                 obstacles = obstacles.stream().filter(obstacle -> obstacle.getX() >= -60).collect(Collectors.toList());
                 break;
             case SCORE:
-                scorePanel.draw(g);
+                try {
+                    scorePanel.draw(g);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
             case GAME_OVER:
                 gameOverMenu.draw(g);
