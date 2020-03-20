@@ -1,10 +1,11 @@
 package game;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 public class Log<log> {
@@ -65,7 +66,7 @@ public class Log<log> {
                     int oldScore = Integer.parseInt(line);
                     if(oldScore < score){
                         String name = JOptionPane.showInputDialog(null, "Enter your name");
-                        savePlayerTop(name);
+//                        savePlayerTop(name);
                         writeFile = new File("score.txt");
                         FileOutputStream outFS = new FileOutputStream(writeFile);
                         PrintWriter outS = new PrintWriter(outFS);
@@ -86,41 +87,17 @@ public class Log<log> {
         }
     }
 
-    public static void savePlayerTop(String name){
-        System.out.println("Loop");
-        String line = "";
-        File inFile = new File("topScore.txt");
-        File writeFile;
-        try {
-            if (inFile.exists()) {
-                Scanner scantop = new Scanner(inFile);
+   public static void saveTop(String name, int score){
+       List<String> list = new ArrayList<String>();
 
-                while (scantop.hasNextLine()  || inFile.length() == 0){ // Edit here
-                    if(inFile.length() != 0) {  // Edit here insert new if statement for file empty will execute
-                        line = line + scantop.nextLine() + "\r\n";
-                    }
+   }
 
-                    writeFile = new File("topScore.txt");
-                    FileOutputStream output = new FileOutputStream(writeFile);
-                    PrintWriter writer = new PrintWriter(output);
-                    //outS.print(line + "Start game at " + getStartTime());
-                    writer.print(line + " name" + name); //Edit here
-                    writer.close();
-
-                }
-
-            } else {
-                writeFile = new File("log.txt");
-                FileOutputStream output = new FileOutputStream(writeFile);
-                PrintWriter writer = new PrintWriter(output);
-                //outS.println("Start game at " + getStartTime());
-                writer.print(line + " name" + name); //Edit here
-                writer.close();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
+    private static String[] push(String[] array, String push) {
+        String[] longer = new String[array.length + 1];
+        for (int i = 0; i < array.length; i++)
+            longer[i] = array[i];
+        longer[array.length] = push;
+        return longer;
     }
 
 }

@@ -33,7 +33,6 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     static int sumScore = 0;
     private int speed = 50;
 
-    private static final String strEndpoint = "https://notify-api.line.me/api/notify";
 
     //private JLabel scoreLabel;
     enum STATE {
@@ -48,8 +47,7 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     ;
 
     Timer timer = new Timer(20, this);
-    JLabel scoreLabel = new JLabel();
-    JFrame scoreFrame = new JFrame();
+
 
     static STATE state = STATE.MENU;
 
@@ -80,8 +78,6 @@ public class Game extends JPanel implements ActionListener, KeyListener {
     }
 
 
-
-// class saveHighScore
 
 
 //Set state
