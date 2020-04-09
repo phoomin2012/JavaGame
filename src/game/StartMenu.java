@@ -19,7 +19,6 @@ public class StartMenu implements MouseListener {
         ImageIcon imageIcon = new ImageIcon("image/Menu.png");
         Image image = imageIcon.getImage();
         g.drawImage(image,0,0,Project.WIDTH,Project.HEIGHT,null);
-//        System.out.println(Game.state);
     }
 
 

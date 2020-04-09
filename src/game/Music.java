@@ -15,7 +15,9 @@ public class Music {
     private static boolean mute = false;
     private static Clip clip;
 
-
+    /**
+     * สร้าง static method ชื่อ backgroudLoop
+     */
     public static void backgroundLoop() {
 
         try {
@@ -23,7 +25,7 @@ public class Music {
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File("sound/kidtung.wav"));
             clip = AudioSystem.getClip();
             clip.open(audioStream);
-            // FloatControl เพื่อมากำหนเเสียง
+            // FloatControl เพื่อมากำหนดเสียง
             FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 //            volumeControl.setValue(-1.0f); // ตั้งค่า Value sound
             muteSetting(); // method muteSetting
@@ -46,7 +48,10 @@ public class Music {
         }
     }
 
-
+    /**
+     * method isMute check boolean mute
+     * @return bolean mute
+     */
     public static boolean isMute() {
         return mute;
     }

@@ -11,10 +11,14 @@ public class GameOver implements MouseListener {
 
     private Game IGame;
 
-
+    /**
+     *
+     * @param game set state form class game
+     */
     public GameOver(Game game) {
         IGame = game;
     }
+
 
     public void draw(Graphics g) {
         ImageIcon imageIcon = new ImageIcon("image/GameOver.png");
@@ -38,7 +42,6 @@ public class GameOver implements MouseListener {
     public void mouseReleased(MouseEvent e) {
         int mouseX = e.getX();
         int mouseY = e.getY();
-        System.out.println("X = " + mouseX + " Y = " + mouseY);
 
         if(IGame.state == Game.STATE.GAME_OVER) {
             /* Button Play Again */

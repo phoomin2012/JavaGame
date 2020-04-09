@@ -4,8 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.ImageObserver;
-import java.lang.reflect.GenericArrayType;
+
 import java.util.Random;
 
 public class PlayGame implements MouseListener {

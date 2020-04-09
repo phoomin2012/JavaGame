@@ -17,37 +17,38 @@ public class Log<log> {
 
     public void writeLogfile() {
         String line = "";
-        File inFile = new File("log.txt");
+        File inFile = new File("log.txt"); //สร้าง logfile ขึ้นมา
         File writeFile;
-        SimpleDateFormat timeToString = new SimpleDateFormat("dd/MM/yy H:m:s"); // Edit here
-        today = new Date(); // Edit here
+        SimpleDateFormat timeToString = new SimpleDateFormat("dd/MM/yy H:m:s"); //สร้าง Format ในการบันทึกข้อมูล
+        today = new Date(); // new Date
 
 
         try {
-            if (inFile.exists()) {
-                Scanner sc1 = new Scanner(inFile);
+            if (inFile.exists()) { // check File ว่า มีอยู่หรือไม่ ค่าจะออกมาเป็น true or false ถ้าเป็น false จะไป create new File
 
-                while (sc1.hasNextLine() || inFile.length() == 0) { // Edit here
-                    if (inFile.length() != 0) {  // Edit here insert new if statement for file empty will execute
-                        line = line + sc1.nextLine() + "\r\n";
+                Scanner sc1 = new Scanner(inFile); //new scanner ที่ชื่อ sc1
+
+                while (sc1.hasNextLine() || inFile.length() == 0) {
+                    if (inFile.length() != 0) {  //check ข้อมุลภายในไฟล์ ถ้า ไม่เท่ากับ 0 จะสร้างขึ้นมาใหม่
+                        line = line + sc1.nextLine() + "\r\n"; // ขึ้นบรรทัดใหม่
                     }
 
                     writeFile = new File("log.txt");
                     FileOutputStream outFS = new FileOutputStream(writeFile);
                     PrintWriter outS = new PrintWriter(outFS);
-                    //outS.print(line + "Start game at " + getStartTime());
-                    outS.print(line + "Start game at " + timeToString.format(today)); //Edit here
+                    outS.print(line + "Start game at " + timeToString.format(today)); //write content
                     outS.close();
 
                 }
 
             } else {
+
                 writeFile = new File("log.txt");
                 FileOutputStream outFS = new FileOutputStream(writeFile);
                 PrintWriter outS = new PrintWriter(outFS);
-                //outS.println("Start game at " + getStartTime());
-                outS.println("Start game at " + timeToString.format(today)); // Edit here
+                outS.println("Start game at " + timeToString.format(today)); //waite content
                 outS.close();
+
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -55,20 +56,26 @@ public class Log<log> {
 
     }
 
+    /**
+     * saveHeighScore
+     * @param score
+     * @throws IOException
+     */
     public static void saveHeighScore(int score) throws IOException {
         File inFile = new File("score.txt");
         File writeFile;
         boolean done = false;
         try {
 
-            if (inFile.exists()) {
-                BufferedReader reader = new BufferedReader(new FileReader(inFile));
+            if (inFile.exists()) { //check status file return true or false
+
+                BufferedReader reader = new BufferedReader(new FileReader(inFile)); //อ่านไฟล์ โดย BufferedReader และ ใส่ paremeter new cobject FileReader ใส่ parameter เป็น path ของ ไฟล์
                 String line = reader.readLine();
                 System.out.println(line);
 
                 if (line != null) {
                     int oldScore = Integer.parseInt(line);
-                    if (oldScore < score) {
+                    if (oldScore < score) { // check score ถ้า oldScore < score จะใช้ class saveNameHighScore เพื่อเก็บข้อมูลผู้เล่น
 
                         saveNameHighScore(score);
                         writeFile = new File("score.txt");
@@ -79,6 +86,7 @@ public class Log<log> {
                     }
                 }
             } else {
+
 //                First time to play create this loop
                 writeFile = new File("score.txt");
                 inFile.createNewFile();
@@ -87,12 +95,17 @@ public class Log<log> {
                 saveNameHighScore(score);
                 outS.println(score);//Write Score
                 outS.close();
+
             }
         } catch (FileNotFoundException e) {
             System.out.println("Error !! : " + e.getMessage());
         }
     }
 
+    /**
+     *  SaveNameHighScore
+     * @param score
+     */
     public static void saveNameHighScore(int score) {
         String line = "";
         File inFile = new File("saveTopScore.txt");
@@ -100,21 +113,24 @@ public class Log<log> {
         String name;
 
         try {
-            name = JOptionPane.showInputDialog(null, "Top score \n Your score is "+ score + "\nPlease Enter your name");
+            name = JOptionPane.showInputDialog(null, "Top score \n Your score is "+ score + "\nPlease Enter your name"); //รับค่าชื่อของผู้เล่น
             System.out.println(name);
-            while (name == null){
+            while (name == null){ // check user หาก ค่า == null เพื่อรับข้อมูลอีกรอบโดยใช้ while loop
                 JOptionPane.showMessageDialog(null,"Please enter your name");
                 name = JOptionPane.showInputDialog(null, "Top score \n Your score is "+ score + "\nPlease Enter your name");
             }
-            LineNotify lineNotify;
-            lineNotify = new LineNotify();
-            lineNotify.callEvent(line + "Name : " + name.toUpperCase() + " Score : " + score);
+
+
+            LineNotify lineNotify = new LineNotify(); //create object lineNotify
+            lineNotify.callEvent(line + "Name : " + name.toUpperCase() + " Score : " + score); //lineNotify ใช้ method callEvent เพื่อส่งข้อมูลผ่าน LineNotify
+
             try {
-                if (inFile.exists()) {
-                    Scanner sc1 = new Scanner(inFile);
+                if (inFile.exists()) { //check status file
+
+                    Scanner sc1 = new Scanner(inFile); //create object Scanner
 
 
-                    while (sc1.hasNextLine() || inFile.length() == 0) { // Edit here
+                    while (sc1.hasNextLine() || inFile.length() == 0) {
                         if (inFile.length() != 0) {  // Edit here insert new if statement for file empty will execute
                             line = line + sc1.nextLine() + "\r\n";
                         }
