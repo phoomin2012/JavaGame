@@ -23,9 +23,9 @@ public class Obstacle {
         this.y = y;
         Hashtable<Integer, String> imageDict = new Hashtable<Integer, String>();
 
-        imageDict.put(0, "image/cactus.png");
-        imageDict.put(1, "image/car1.png");
-        imageDict.put(2, "image/car2.png");
+        imageDict.put(0, "image/motorbike.png");
+        imageDict.put(1, "image/car.png");
+        imageDict.put(2, "image/semi.png");
 
         Random rand = new Random();
 

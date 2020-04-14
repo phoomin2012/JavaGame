@@ -115,7 +115,7 @@ public class Log<log> {
         try {
             name = JOptionPane.showInputDialog(null, "Top score \n Your score is "+ score + "\nPlease Enter your name"); //รับค่าชื่อของผู้เล่น
             System.out.println(name);
-            while (name == null){ // check user หาก ค่า == null เพื่อรับข้อมูลอีกรอบโดยใช้ while loop
+            while (name == null || name.length() <= 1){ // check value name is null or length of name <= 1 เพื่อรับข้อมูลอีกรอบโดยใช้ while loop
                 JOptionPane.showMessageDialog(null,"Please enter your name");
                 name = JOptionPane.showInputDialog(null, "Top score \n Your score is "+ score + "\nPlease Enter your name");
             }
